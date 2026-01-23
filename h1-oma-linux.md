@@ -36,7 +36,8 @@ Aika ja Paikka: 20-23.1.2026 Espoo Finland
 
 #### 2. Virtuaalikoneen luominen VirtualBox-ohjelmaan
 
-Asennuksen jälkeen käynnistin VirtualBoxin luodakseni uuden virtuaalikoneen Guest OS -käyttöä varten (valitse New tai näppäile Ctrl + N päävalikossa). Annettuani avautuneeseen ikkunan luontia varten tarvitut tiedot (VM Name, ISO Image) huomasin, että ohjelma tunnisti virheellisesti käyttöjärjestelmät 32-bittiseksi Debianin tukeman ja Host-koneelta löytyvän 64-bittisen sijaan. 
+Asennuksen jälkeen käynnistin VirtualBoxin luodakseni uuden virtuaalikoneen Guest OS -käyttöä varten (valitse New tai näppäile Ctrl + N päävalikossa). Annettuani avautuneeseen ikkunan luontia varten tarvitut tiedot (VM Name, ISO Image) huomasin, että ohjelma tunnisti virheellisesti luodun käyttöjärjestelmän 32-bittiseksi 64-bittisen sijaan. 
+
 <img width="1018" height="506" alt="32bit debian" src="https://github.com/user-attachments/assets/3590b99c-5229-4e22-b441-1961e8570d7e" />
 
 #### 3. Vian määritys
@@ -53,6 +54,8 @@ Windows -koneilta löytyvä Hype-V voi häiritä muiden virtualisointialustojen 
 - Windows Subsystem for Linux
  
 Windows ominaisuuksia pääsee poistamaan käytöstä sekä ottamaan käyttöön Control Panel -asetuksista seuraamalla polkua Home -> Programs -> Programs & Features -> Turn Windows features on or off.
+
+<img width="1277" height="752" alt="kuva_4_hypeV" src="https://github.com/user-attachments/assets/5a14d21f-a9db-4807-808b-0f9ba49ac3a8" />
 
 **3.3** Virtualization-Based Security (VBS) 
 Seuraava vaihe oli yrittää kytkeä taustalla pyörivä VBS pois päältä.
