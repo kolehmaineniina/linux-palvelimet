@@ -1,0 +1,92 @@
+# h1 Oma Linux
+
+## x) Tiivistelmä Tero Karvisen ohjeista raportin kirjoittamiseen
+Tietoteknisen raportin, kuten minkä tahansa muunkin tieteellisen kokeen tai tutkimuksen, perimmäinen tarkoitus on olla toistettava niin, että jonkun toisen on mahdollista tuottaa samat tulokset artikkelin perusteella. Tärkeintä raportoinnissa ei siis ole toivottujen tai oletettujen tulosten tuottaminen vaan tuotettujen tulosten luotettavuus, niin että .. Raportoinnin näkökulmasta tämä tarkoittaa rehellisyyttä ja tarkkuutta. 
+
+**Karvisen** ohjeistuksen mukaan raportin tulee olla:
+
+1. Toistettava
+1. Täsmällinen 
+1. Helppolukuinen
+
+Karvisen ohjeistus esimerkkeineen, yleisimpine virheineen sekä xxx on luettavissa kirjailijan [kotisivuilta](https://terokarvinen.com/2012/2006/raportin-kirjoittaminen-4).
+
+## a) Linuxin asennus virtuaalikoneeseen
+
+### Tiivistelmä 
+Testin aikana yritettiin luoda virtuaalikone, ja asettaa siihen Debian 13 (Trixie) käyttöjärjestelmä Linuxin käyttöä varten. Virtuaalikoneen on tarkoitus toimia testiympäristönä, jossa kurssin loput tehtävät ja kokeet voidaan suorittaa turvallisesti.
+
+### Ympäristö
+**Host: Lenovo ThinkPad P14s Gen 5**
+- Käyttöjärjestelmä: Windows 11 Pro
+- Prosessori: AMD Ryzen 5 PRO 8640HS
+- Näytönohjain: AMD Radeon 760M
+- Muisti: 16 Gt DDR5-5600
+- Tallennustila: 512 Gt SSD, josta vapaana > 30 %
+
+**Guest:--**
+
+### Menetelmä
+Aika ja Paikka: 20-23.1.2026 Espoo Finland
+
+#### 1. Pakettien lataus ja asennus Host-koneelle
+**1.1** Host-koneelle ladattiin Debian 13.3.0 -käyttöjärjestelmän ISO Image, joka mahdollistaa järjestelmän käytön ilman kovalevylle kirjoittamista tehden sitä turvallisen aloittelijalle ja koekäyttöön (Debian, Live install images). Debiani versiot ovat saatavilla käyttöjärjestelmän kotisivuston [Distro](https://www.debian.org/distrib/) välilehdeltä. Latauslinkki vaihtuu uusien päivitysten yhteydessä. Host-koneelle ladattu Live KDE -versio löytyi kokeen aikana [täältä](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-13.3.0-amd64-kde.iso.)
+
+**1.2** Host-koneelle ladattiin Windows-käyttöjärjestelmän VirtualBox 7.2.4 Installer -asennusohjelma, jolle aneetiin pääsy kovalevylle virtualisointiohjelman asennusta varten. Kokeen aikana asennusohjelma oli ladattavissa osoitteesta https://www.virtualbox.org/wiki/Downloads. 
+
+#### 2. Virtuaalikoneen luominen VirtualBox-ohjelmaan
+
+Asennuksen jälkeen käynnistin VirtualBoxin luodakseni uuden virtuaalikoneen Guest OS -käyttöä varten (valitse New tai näppäile Ctrl + N päävalikossa). Annettuani avautuneeseen ikkunan luontia varten tarvitut tiedot (VM Name, ISO Image) huomasin, että ohjelma tunnisti virheellisesti käyttöjärjestelmät 32-bittiseksi Debianin tukeman ja Host-koneelta löytyvän 64-bittisen sijaan. 
+<img width="1018" height="506" alt="32bit debian" src="https://github.com/user-attachments/assets/3590b99c-5229-4e22-b441-1961e8570d7e" />
+
+#### 3. Vian määritys
+
+**3.1** UEFI BIOS
+Lähdin vianmääritykseen tarkistamalla Host-koneen BIOS-asetukset varmistaakseni, että virtualisointi on tuettuna (Heinonen). Lenovon BIOS Setup Utility -valikko avautui koneen käynnistyksen yhteydessä painamalla F1-näppäintä ennen kuin käyttöjärjestelmä ehtii käynnistyä. Virtuali, joten lähdin etsimään ongelmaa muualta.
+
+**3.2** Windows Features
+Windows -koneilta löytyvä Hype-V voi häiritä muiden virtualisointialustojen toimintaa (Virtualbox.org). Kävin tarkistamassa, että seuraavat ominaisuudet eivät ole käytössä: 
+- Hype-V
+- Virtual Machine Platform
+- Windows Hypervisor Platform
+- Windows Sandbox 
+- Windows Subsystem for Linux
+ 
+Windows ominaisuuksia pääsee poistamaan käytöstä sekä ottamaan käyttöön Control Panel -asetuksista seuraamalla polkua Home -> Programs -> Programs & Features -> Turn Windows features on or off.
+
+**3.3** Virtualization-Based Security (VBS) 
+Seuraava vaihe oli yrittää kytkeä taustalla pyörivä VBS pois päältä.
+Keskustelupalstoilta (virtualbox.org, Microsoft Learn, Reddit) löytyvien vinkkien mukaan suoritin seuraavat vaiheet:
+**Disable Memory Integrity** 
+*System settings/Privacy & security/Windows Security/Device security/Core Isolation/Memory Integrity*
+2. oistamassa käytöstä Windows Securityn Memory Integrityn (Core Isolation) sekä Device Guradin, mutta VBS pyörii taustalla edelleen. 
+
+Current situation:
+
+Memory Integrity: off ✅
+
+Group Policy VBS: disabled ✅
+
+RequirePlatformSecurityFeatures: was 1 ❌ (you fixed this)
+
+hypervisorlaunchtype: off ✅
+
+vsmlaunchtype: off (already done)
+
+VBS: STILL RUNNING 
+
+https://www.reddit.com/r/Amd/comments/1fums7b/comment/lycwbc2/
+
+En tiedä miten jatkaa. Joudun jättämään VirtualBox asennuksen kesken ja kääntymään vaihtoehtoisten pariin
+
+##4. Tulokset
+
+##5. Lähteet
+
+Debian. Live Install Images. Luettavissa: https://www.debian.org/CD/live/#choose_live
+Heinonen, Johanna. How to install Linux on VirtualBox? Luettavissa: https://github.com/johannaheinonen/johanna-test-repo/blob/main/linux-20082025.md
+Karvinen, Tero. 2024. Install Debian on VirtualBox. Luettavissa: https://terokarvinen.com/2021/install-debian-on-virtualbox/.
+Karvinen, Tero. 2006. Raportin kirjoittaminen. Luettavissa: https://terokarvinen.com/2012/2006/raportin-kirjoittaminen-4.
+Microsoft Learn. How to turn off Virtualization-based Security (VBS) on Windows 11 Pro 24H2? Luettavissa: https://learn.microsoft.com/en-us/answers/questions/3899892/how-to-turn-off-virtualization-based-security-(vbs
+Reddit. 2025. PSA: Disabling Memory Integrity in Windows 11 24H2 does not disable VBS. Here's how to actually disable it. Luettavissa: https://www.reddit.com/r/Amd/comments/1fums7b/comment/lycwbc2/
+VirtualBox.org. 2014.  I have a 64bit host, but can't install 64bit guestst. Luettavissa: https://forums.virtualbox.org/viewtopic.php?f=1&t=62339
