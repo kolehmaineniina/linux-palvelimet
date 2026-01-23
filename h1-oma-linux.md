@@ -59,28 +59,11 @@ Windows ominaisuuksia pääsee poistamaan käytöstä sekä ottamaan käyttöön
 
 **3.3** Virtualization-Based Security (VBS) 
 Seuraava vaihe oli yrittää kytkeä taustalla pyörivä VBS pois päältä.
+
+<img width="972" height="727" alt="Sysinfo" src="https://github.com/user-attachments/assets/c09c6585-5ffe-46cf-9423-89f651783363" />
+
 Keskustelupalstoilta (virtualbox.org, Microsoft Learn, Reddit) löytyvien vinkkien mukaan suoritin seuraavat vaiheet:
-**Disable Memory Integrity** 
-*System settings/Privacy & security/Windows Security/Device security/Core Isolation/Memory Integrity*
-2. oistamassa käytöstä Windows Securityn Memory Integrityn (Core Isolation) sekä Device Guradin, mutta VBS pyörii taustalla edelleen. 
-
-Current situation:
-
-Memory Integrity: off ✅
-
-Group Policy VBS: disabled ✅
-
-RequirePlatformSecurityFeatures: was 1 ❌ (you fixed this)
-
-hypervisorlaunchtype: off ✅
-
-vsmlaunchtype: off (already done)
-
-VBS: STILL RUNNING 
-
-https://www.reddit.com/r/Amd/comments/1fums7b/comment/lycwbc2/
-
-En tiedä miten jatkaa. Joudun jättämään VirtualBox asennuksen kesken ja kääntymään vaihtoehtoisten pariin
+- Disable Memory Integrity -> System settings/Privacy & security/Windows Security/Device security/Core Isolation/Memory Integrity
 
 ##4. Tulokset
 
